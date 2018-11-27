@@ -1,6 +1,6 @@
 # FileMapper
 
-[![pipeline status](https://gitlab.com/LeMilliard/Mapper/badges/master/pipeline.svg)](https://gitlab.com/LeMilliard/Mapper/commits/master)
+[![pipeline status](https://gitlab.com/LeMilliard/FileMapper/badges/master/pipeline.svg)](https://gitlab.com/LeMilliard/FileMapper/commits/master)
 
 Librairie qui permet de lire des fichiers organisés type CSV et stocker le contenu dans des objets. 
 
