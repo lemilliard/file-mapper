@@ -1,4 +1,4 @@
-package fr.filemapper;
+package com.lemilliard.filemapper;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -31,13 +31,11 @@ public class FileMapper {
 			throws IOException, InstantiationException, IllegalAccessException {
 		// Preparing list
 		List<T> list = new ArrayList<>();
-
 		// For each line of file
 		for (String[] stringArray : getFileContent(filename, FMSeparation)) {
 			// Add parsed object to the list
 			list.add(parseStringArrayToObject(entityClass, stringArray));
 		}
-
 		return list;
 	}
 
@@ -51,41 +49,34 @@ public class FileMapper {
 	 */
 	private static <T> T parseStringArrayToObject(Class<T> entityClass, String[] stringArray)
 			throws IllegalAccessException, InstantiationException, ArrayIndexOutOfBoundsException {
-		// Preparing object
-		T object = null;
-		try {
-			// Instanciating object
-			object = entityClass.newInstance();
+		// Instanciating object
+		T object = entityClass.newInstance();
 
-			// Getting fields
-			Field[] fields = entityClass.getFields();
+		// Getting fields
+		Field[] fields = entityClass.getFields();
 
-			// If number of fields does not match the size of string array, stop the parser
-			if (fields.length < stringArray.length) {
-				StringBuilder stringBuilder = new StringBuilder("La taille des données (") //
-						.append(stringArray.length) //
-						.append(") ne correspond pas avec celle (") //
-						.append(fields.length) //
-						.append(") de l'objet de type ") //
-						.append(entityClass.getCanonicalName()) //
-						.append("\n") //
-						.append("Ligne concernée: ");
-				for (String s : stringArray) {
-					stringBuilder.append("  ").append(s);
-				}
-				// Exit program
-				throw new ArrayIndexOutOfBoundsException(stringBuilder.toString());
+		// If number of fields does not match the size of string array, stop the parser
+		if (fields.length < stringArray.length) {
+			StringBuilder stringBuilder = new StringBuilder("La taille des données (") //
+					.append(stringArray.length) //
+					.append(") ne correspond pas avec celle (") //
+					.append(fields.length) //
+					.append(") de l'objet de type ") //
+					.append(entityClass.getCanonicalName()) //
+					.append("\n") //
+					.append("Ligne concernée: ");
+			for (String s : stringArray) {
+				stringBuilder.append("  ").append(s);
 			}
-
-			// For each field
-			for (int i = 0; i < stringArray.length; i++) {
-				// Set field with string array value mapping same index
-				fields[i].set(object, stringArray[i]);
-			}
-		} catch (Exception e) {
-			throw e;
+			// Exit program
+			throw new ArrayIndexOutOfBoundsException(stringBuilder.toString());
 		}
 
+		// For each field
+		for (int i = 0; i < stringArray.length; i++) {
+			// Set field with string array value mapping same index
+			fields[i].set(object, stringArray[i]);
+		}
 		return object;
 	}
 
@@ -99,13 +90,11 @@ public class FileMapper {
 	 */
 	private static String[][] getFileContent(String fileName, FMSeparation FMSeparation) throws IOException {
 		List<String[]> data = new ArrayList<>();
-
 		for (String line : getFileLines(fileName, false)) {
 			String[] lineValues = line.split(FMSeparation.getValue());
 
 			data.add(lineValues);
 		}
-
 		return data.toArray(new String[data.size()][]);
 	}
 
@@ -118,14 +107,10 @@ public class FileMapper {
 	 */
 	public static List<String> getFileLines(String fileName, boolean complete) throws IOException {
 		List<String> fileLines = new ArrayList<>();
-		try {
-			for (String line : Files.readAllLines(Paths.get(fileName))) {
-				if (complete || !line.equals("")) {
-					fileLines.add(line);
-				}
+		for (String line : Files.readAllLines(Paths.get(fileName))) {
+			if (complete || !line.equals("")) {
+				fileLines.add(line);
 			}
-		} catch (IOException e) {
-			throw e;
 		}
 		return fileLines;
 	}

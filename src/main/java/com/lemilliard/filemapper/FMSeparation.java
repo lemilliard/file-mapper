@@ -1,4 +1,4 @@
-package fr.filemapper;
+package com.lemilliard.filemapper;
 
 public enum FMSeparation {
 	SPACE(" "), //
